@@ -23,15 +23,24 @@ public class Analyzer {
 
         String teamName;
 
-        int     GAMESPLAYED, AVERAGESCORE = 0, WINS = 0, LOSSES = 0,
-                FIELDGOALSPERGAME = 0, THREEPOINTERSPERGAME = 0, FREETHROWPERGAME = 0,
-                OFFENSIVEREBOUNDSPERGAME = 0, DEFENSIVEREBOUNDSPERGAME = 0, TURNOVERSPERGAME = 0,
-                STEALSPERGAME = 0, BLOCKSPERGAME = 0, PERSONALFOULSPERGAME = 0;
+        double    GAMESPLAYED, AVERAGESCORE = 0, WINS = 0, LOSSES = 0,
+            FIELDGOALSPERGAME = 0, THREEPOINTERSPERGAME = 0, FREETHROWPERGAME = 0,
+            OFFENSIVEREBOUNDSPERGAME = 0, DEFENSIVEREBOUNDSPERGAME = 0, TURNOVERSPERGAME = 0,
+            STEALSPERGAME = 0, BLOCKSPERGAME = 0, PERSONALFOULSPERGAME = 0, AssistsPerGame = 0;
+
+        double  oAVERAGESCORE = 0,
+                oFIELDGOALSPERGAME = 0, oTHREEPOINTERSPERGAME = 0, oFREETHROWPERGAME = 0,
+                oOFFENSIVEREBOUNDSPERGAME = 0, oDEFENSIVEREBOUNDSPERGAME = 0, oTURNOVERSPERGAME = 0,
+                oSTEALSPERGAME = 0, oBLOCKSPERGAME = 0, oPERSONALFOULSPERGAME = 0, oAssistsPerGame = 0;
 
         double FIELDGOALSUCCESS, THREEPOINTERSSUCCESS, FREETHROWSUCCESS;
 
+        double oFIELDGOALSUCCESS, oTHREEPOINTERSSUCCESS, oFREETHROWSUCCESS;
+
 
         int freeThrowAttempts = 0 , threePointerAttempts = 0 , fieldGoalAttempts = 0;
+
+        int ofreeThrowAttempts = 0 , othreePointerAttempts = 0 , ofieldGoalAttempts = 0;
 
         while(fileReader.hasNext())
         {
@@ -48,11 +57,27 @@ public class Analyzer {
                 FREETHROWPERGAME += Integer.parseInt(currentLine[12]);
                 freeThrowAttempts += Integer.parseInt(currentLine[13]);
                 OFFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[14]);
-                DEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[16]);
-                TURNOVERSPERGAME += Integer.parseInt(currentLine[18]);
-                STEALSPERGAME += Integer.parseInt(currentLine[19]);
-                BLOCKSPERGAME += Integer.parseInt(currentLine[20]);
-                PERSONALFOULSPERGAME += Integer.parseInt(currentLine[21]);
+                DEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[15]);
+                AssistsPerGame += Integer.parseInt(currentLine[16]);
+                TURNOVERSPERGAME += Integer.parseInt(currentLine[17]);
+                STEALSPERGAME += Integer.parseInt(currentLine[18]);
+                BLOCKSPERGAME += Integer.parseInt(currentLine[19]);
+                PERSONALFOULSPERGAME += Integer.parseInt(currentLine[20]);
+
+                oAVERAGESCORE += Integer.parseInt(currentLine[5]);
+                oFIELDGOALSPERGAME += Integer.parseInt(currentLine[21]);
+                ofieldGoalAttempts += Integer.parseInt(currentLine[22]);
+                oTHREEPOINTERSPERGAME += Integer.parseInt(currentLine[23]);
+                othreePointerAttempts += Integer.parseInt(currentLine[24]);
+                oFREETHROWPERGAME += Integer.parseInt(currentLine[25]);
+                ofreeThrowAttempts += Integer.parseInt(currentLine[26]);
+                oOFFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[27]);
+                oDEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[28]);
+                oAssistsPerGame += Integer.parseInt(currentLine[29]);
+                oTURNOVERSPERGAME += Integer.parseInt(currentLine[30]);
+                oSTEALSPERGAME += Integer.parseInt(currentLine[31]);
+                oBLOCKSPERGAME += Integer.parseInt(currentLine[32]);
+                oPERSONALFOULSPERGAME += Integer.parseInt(currentLine[33]);
 
             }
 
@@ -60,15 +85,31 @@ public class Analyzer {
             {
                 //ITERATES THROUGH THE LOOSING STATS
                 LOSSES++;
+                oAVERAGESCORE += Integer.parseInt(currentLine[3]);
+                oFIELDGOALSPERGAME += Integer.parseInt(currentLine[8]);
+                ofieldGoalAttempts += Integer.parseInt(currentLine[9]);
+                oTHREEPOINTERSPERGAME += Integer.parseInt(currentLine[10]);
+                othreePointerAttempts += Integer.parseInt(currentLine[11]);
+                oFREETHROWPERGAME += Integer.parseInt(currentLine[12]);
+                ofreeThrowAttempts += Integer.parseInt(currentLine[13]);
+                oOFFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[14]);
+                oDEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[15]);
+                oAssistsPerGame += Integer.parseInt(currentLine[16]);
+                oTURNOVERSPERGAME += Integer.parseInt(currentLine[17]);
+                oSTEALSPERGAME += Integer.parseInt(currentLine[18]);
+                oBLOCKSPERGAME += Integer.parseInt(currentLine[19]);
+                oPERSONALFOULSPERGAME += Integer.parseInt(currentLine[20]);
+
                 AVERAGESCORE += Integer.parseInt(currentLine[5]);
-                FIELDGOALSPERGAME += Integer.parseInt(currentLine[22]);
-                fieldGoalAttempts += Integer.parseInt(currentLine[23]);
-                THREEPOINTERSPERGAME += Integer.parseInt(currentLine[24]);
-                threePointerAttempts += Integer.parseInt(currentLine[25]);
-                FREETHROWPERGAME += Integer.parseInt(currentLine[26]);
-                freeThrowAttempts += Integer.parseInt(currentLine[27]);
-                OFFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[28]);
-                DEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[29]);
+                FIELDGOALSPERGAME += Integer.parseInt(currentLine[21]);
+                fieldGoalAttempts += Integer.parseInt(currentLine[22]);
+                THREEPOINTERSPERGAME += Integer.parseInt(currentLine[23]);
+                threePointerAttempts += Integer.parseInt(currentLine[24]);
+                FREETHROWPERGAME += Integer.parseInt(currentLine[25]);
+                freeThrowAttempts += Integer.parseInt(currentLine[26]);
+                OFFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[27]);
+                DEFENSIVEREBOUNDSPERGAME += Integer.parseInt(currentLine[28]);
+                AssistsPerGame += Integer.parseInt(currentLine[29]);
                 TURNOVERSPERGAME += Integer.parseInt(currentLine[30]);
                 STEALSPERGAME += Integer.parseInt(currentLine[31]);
                 BLOCKSPERGAME += Integer.parseInt(currentLine[32]);
@@ -81,6 +122,10 @@ public class Analyzer {
         //DETERMINE AVERAGES
 
         GAMESPLAYED = WINS + LOSSES;
+        oFIELDGOALSUCCESS = oFIELDGOALSPERGAME / (double)ofieldGoalAttempts;
+        oTHREEPOINTERSSUCCESS = oTHREEPOINTERSPERGAME / (double)othreePointerAttempts;
+        oFREETHROWSUCCESS = oFIELDGOALSPERGAME / (double)ofreeThrowAttempts;
+
         FIELDGOALSUCCESS = FIELDGOALSPERGAME / (double)fieldGoalAttempts;
         THREEPOINTERSSUCCESS = THREEPOINTERSPERGAME / (double)threePointerAttempts;
         FREETHROWSUCCESS = FIELDGOALSPERGAME / (double)freeThrowAttempts;
@@ -98,14 +143,31 @@ public class Analyzer {
         BLOCKSPERGAME = BLOCKSPERGAME / GAMESPLAYED;
         PERSONALFOULSPERGAME = PERSONALFOULSPERGAME / GAMESPLAYED;
 
+        oAVERAGESCORE = oAVERAGESCORE / GAMESPLAYED;
+        oFIELDGOALSPERGAME = oFREETHROWPERGAME / GAMESPLAYED;
+        oTHREEPOINTERSPERGAME = oTHREEPOINTERSPERGAME / GAMESPLAYED;
+        oFREETHROWPERGAME = oFREETHROWPERGAME / GAMESPLAYED;
+        oOFFENSIVEREBOUNDSPERGAME = oOFFENSIVEREBOUNDSPERGAME / GAMESPLAYED;
+        oDEFENSIVEREBOUNDSPERGAME = oDEFENSIVEREBOUNDSPERGAME / GAMESPLAYED;
+        oTURNOVERSPERGAME = oTURNOVERSPERGAME / GAMESPLAYED;
+        oSTEALSPERGAME = oSTEALSPERGAME / GAMESPLAYED;
+        oBLOCKSPERGAME = oBLOCKSPERGAME / GAMESPLAYED;
+        oPERSONALFOULSPERGAME = oPERSONALFOULSPERGAME / GAMESPLAYED;
+
         teamName = getTeamName(teamID);
 
-        return new Team(year,  teamID, teamName, GAMESPLAYED , AVERAGESCORE , WINS , LOSSES,
+        return new Team(new double[] {year,  teamID, GAMESPLAYED , AVERAGESCORE , WINS , LOSSES,
                 FIELDGOALSPERGAME , FIELDGOALSUCCESS,
                 THREEPOINTERSPERGAME , THREEPOINTERSSUCCESS,
                 FREETHROWPERGAME , FREETHROWSUCCESS,
                 OFFENSIVEREBOUNDSPERGAME , DEFENSIVEREBOUNDSPERGAME , TURNOVERSPERGAME,
-                STEALSPERGAME, BLOCKSPERGAME, PERSONALFOULSPERGAME);
+                STEALSPERGAME, BLOCKSPERGAME, PERSONALFOULSPERGAME, AssistsPerGame, fieldGoalAttempts, threePointerAttempts ,freeThrowAttempts},
+                new double[] {oAVERAGESCORE ,
+                oFIELDGOALSPERGAME , oFIELDGOALSUCCESS,
+                oTHREEPOINTERSPERGAME , oTHREEPOINTERSSUCCESS,
+                oFREETHROWPERGAME , oFREETHROWSUCCESS,
+                oOFFENSIVEREBOUNDSPERGAME , oDEFENSIVEREBOUNDSPERGAME , oTURNOVERSPERGAME,
+                oSTEALSPERGAME, oBLOCKSPERGAME, oPERSONALFOULSPERGAME, oAssistsPerGame, ofieldGoalAttempts, othreePointerAttempts, ofreeThrowAttempts}, teamName);
     }
 
     public static ArrayList<Team> getTeamListYearly (int year) throws IOException

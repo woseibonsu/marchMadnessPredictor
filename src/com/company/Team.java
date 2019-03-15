@@ -2,37 +2,22 @@ package com.company;
 
 public class Team {
 
-    private int year, teamID, gamesPlayed, averageScore, wins, losses,
-            fieldGoalsPerGame, threePointersPerGame, freeThrowsPerGame,
-            offensiveReboundsPerGame, defensiveReboundsPerGame, turnOversPerGame,
-            stealsPerGame, blocksPerGame, personalFoulsPerGame;
-
-    private double fieldGoalSuccessRate, threePointerSuccessRate, freeThrowSuccessRate;
+    /*year,  teamID, GAMESPLAYED , AVERAGESCORE , WINS , LOSSES,
+                FIELDGOALSPERGAME , FIELDGOALSUCCESS,
+                THREEPOINTERSPERGAME , THREEPOINTERSSUCCESS,
+                FREETHROWPERGAME , FREETHROWSUCCESS,
+                OFFENSIVEREBOUNDSPERGAME , DEFENSIVEREBOUNDSPERGAME , TURNOVERSPERGAME,
+                STEALSPERGAME, BLOCKSPERGAME, PERSONALFOULSPERGAME, AssistsPerGame
+                 fieldGoalAttempts, threePointerAttempts ,freeThrowAttempts*/
 
     private String teamName;
 
-    public Team(int year, int teamID, String teamName, int gp , int as , int wins , int losses,
-                int fpg , double fps, int fg3pg , double fg3pgs, int ftpg , double fts,
-                int orpg , int drpg , int topg, int spg, int bpg, int pfpg)
+    private double[] statArray, oStatArray;
+
+    public Team(double[] statArray , double[] oppoentStatArray, String teamName)
     {
-        this.year = year;
-        this.teamID = teamID;
-        this.gamesPlayed = gp;
-        this.averageScore = as;
-        this.wins = wins;
-        this.losses = losses;
-        this.fieldGoalsPerGame = fpg;
-        this.threePointersPerGame = fg3pg;
-        this.freeThrowsPerGame = ftpg;
-        this.offensiveReboundsPerGame = orpg;
-        this.defensiveReboundsPerGame = drpg;
-        this.turnOversPerGame = topg;
-        this.stealsPerGame = spg;
-        this.blocksPerGame = bpg;
-        this.personalFoulsPerGame = pfpg;
-        this.fieldGoalSuccessRate = fps;
-        this.threePointerSuccessRate = fg3pgs;
-        this.freeThrowSuccessRate = fts;
+        this.statArray = statArray;
+        oStatArray = oppoentStatArray;
         this.teamName = teamName;
     }
 
@@ -43,76 +28,90 @@ public class Team {
         return teamName;
     }
 
-    public int getTeamID() {
-        return teamID;
+    public double getGamesPlayed(){return statArray[1];}
+
+    public double getWins(){return statArray[3];}
+
+    public double getLosses(){return statArray[4];}
+
+    //<editor-fold desc="GET METHODS FOR WINING STATS">
+    public double[] getWinningStatArray() {
+        return statArray;
     }
 
-    public int getYear() {
-        return year;
+    public double getAverageScore(){return statArray[2];}
+
+    public double getFieldGoalsMadePerGame(){return statArray[5];}
+
+    public double getFieldGoalsAttempted(){return statArray[19];} //
+
+    public double getFieldGoalScuessRate(){return statArray[6];}
+
+    public double getThreePointersMadePerGame(){return statArray[7];}
+
+    public double getThreePointersAttempted(){return statArray[20];} //
+
+    public double getThreePointerScuessRate(){return statArray[8];}
+
+    public double getFreeThrowsMadePerGame(){return statArray[9];}
+
+    public double getFreeThrowsAttempted(){return statArray[21];} //
+
+    public double getFreeThrowScuessRate(){return statArray[10];}
+
+    public double getOffensiveReboundsPerGame(){return statArray[11];}
+
+    public double getDefensiveReboundsPerGame(){return statArray[12];}
+
+    public double getTurnOversPerGame(){return statArray[13];}
+
+    public double getStealsPerGame(){return statArray[15];}
+
+    public double getBlocksPerGame(){return statArray[16];}
+
+    public double getPersonalFoulsPerGame(){return statArray[17];}
+
+    public double getAssistsPerGame(){return statArray[18];}
+    //</editor-fold>
+
+    //<editor-fold desc="GET METHODS FOR LOOSING STATS">
+    public double[] getOppStatArray() {
+        return oStatArray;
     }
 
-    public int getGamesPlayed() {
-        return gamesPlayed;
-    }
+    public double getOppAverageScore(){return oStatArray[0];}
 
-    public int getAverageScore() {
-        return averageScore;
-    }
+    public double getOppFieldGoalsMadePerGame(){return oStatArray[1];}
 
-    public int getWins() {
-        return wins;
-    }
+    public double getOppFieldGoalsAttempted(){return oStatArray[14];} //
 
-    public int getLosses() {
-        return losses;
-    }
+    public double getOppFieldGoalScuessRate(){return oStatArray[2];}
 
-    public int getFieldGoalsPerGame() {
-        return fieldGoalsPerGame;
-    }
+    public double getOppThreePointersMadePerGame(){return oStatArray[3];}
 
-    public int getThreePointersPerGame() {
-        return threePointersPerGame;
-    }
+    public double getOppThreePointersAttempted(){return oStatArray[15];} //
 
-    public int getFreeThrowsPerGame() {
-        return freeThrowsPerGame;
-    }
+    public double getOppThreePointerScuessRate(){return oStatArray[4];}
 
-    public int getOffensiveReboundsPerGame() {
-        return offensiveReboundsPerGame;
-    }
+    public double getOppFreeThrowsMadePerGame(){return oStatArray[5];}
 
-    public int getDefensiveReboundsPerGame() {
-        return defensiveReboundsPerGame;
-    }
+    public double getOppFreeThrowsAttempted(){return oStatArray[16];} //
 
-    public int getTurnOversPerGame() {
-        return turnOversPerGame;
-    }
+    public double getOppFreeThrowScuessRate(){return oStatArray[6];}
 
-    public int getStealsPerGame() {
-        return stealsPerGame;
-    }
+    public double getOppOffensiveReboundsPerGame(){return oStatArray[7];}
 
-    public int getBlocksPerGame() {
-        return blocksPerGame;
-    }
+    public double getOppDefensiveReboundsPerGame(){return oStatArray[8];}
 
-    public int getPersonalFoulsPerGame() {
-        return personalFoulsPerGame;
-    }
+    public double getOppTurnOversPerGame(){return oStatArray[9];}
 
-    public double getFieldGoalSuccessRate() {
-        return fieldGoalSuccessRate;
-    }
+    public double getOppStealsPerGame(){return oStatArray[10];}
 
-    public double getFreeThrowSuccessRate() {
-        return freeThrowSuccessRate;
-    }
+    public double getOppBlocksPerGame(){return oStatArray[11];}
 
-    public double getThreePointerSuccessRate() {
-        return threePointerSuccessRate;
-    }
+    public double getOppPersonalFoulsPerGame(){return oStatArray[12];}
+
+    public double getOppAssistsPerGame(){return oStatArray[13];}
+    //</editor-fold>
 
 }
