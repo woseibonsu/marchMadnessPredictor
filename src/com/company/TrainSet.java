@@ -14,11 +14,6 @@ public class TrainSet
         this.outputSize=outputsize;
     }
 
-    public TrainSet extractBatch(TrainSet set, int num)
-    {
-        return set;
-    }
-
     public void addData(double[] in, double[] expected)
     {
         if(in.length != inputSize || expected.length != outputSize) return;

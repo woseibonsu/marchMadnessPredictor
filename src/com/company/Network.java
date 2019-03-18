@@ -1,6 +1,7 @@
 package com.company;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Network {
@@ -8,11 +9,10 @@ public class Network {
     private double[][]outputs, bias, error, derivative;//individual outputs of neurons at layer, neuron
     private double[][][]weights;//weights between neurons at to layer, to neuron, from neuron
 
-
     private final int[] layerSize;
     private final int inputSize, networkSize, outputSize;
 
-    private Network(int...layerSize)
+    public Network(int...layerSize)
     {
         this.layerSize=layerSize;
         this.inputSize=layerSize[0];
@@ -35,7 +35,7 @@ public class Network {
         }
     }
 
-    private double[] calculate(double...input)
+    public double[] calculate(double...input)
     {
         //catches mistake in input length
         if(this.inputSize!=input.length) return null;
@@ -54,7 +54,6 @@ public class Network {
         return outputs[networkSize-1];
     }
 
-
     private void train(double[]input,double[]target,double rate)
     {
         if(input.length!=inputSize||target.length!=outputSize)return;
@@ -63,15 +62,18 @@ public class Network {
         updateWeights(rate);
     }
 
-    public void train(TrainSet set, int loops, int batchsize)
+    public void train(TrainSet set, int loops)
     {
-        if(set.inputSize!=inputSize||set.outputSize!=outputSize)return;
+        if(set.inputSize!=inputSize||set.outputSize!=outputSize)
+        {
+            System.out.println(inputSize);
+            return;}
         for(int i=0;i<loops;i++)
         {
-            TrainSet batch = set.extractBatch(set,batchsize);
-            for(int b=0;b<batchsize;b++)
+
+            for(int b=0; b<set.size(); b++)
             {
-                this.train(batch.getInput(b),batch.getOutput(b),0.3);
+                this.train(set.getInput(b),set.getOutput(b),0.3);
             }
         }
     }
@@ -153,25 +155,6 @@ public class Network {
         System.out.println(Arrays.toString(net.calculate(input2)));
         System.out.println(Arrays.toString(net.calculate(input3)));
         System.out.println(Arrays.toString(net.calculate(input5)));
-    }
-
-    public static void main(String[] args)
-    {
-        Network net = new Network(4,3,2,1);
-        TrainSet set = new TrainSet(4,1);
-
-        set.addData(new double[]{0.1,0.4,0.6,0.6},new double[]{0.5});
-        set.addData(new double[]{0.3,0.4,0.6,0.5},new double[]{0.7});
-        set.addData(new double[]{0.5,0.4,0.6,0.4},new double[]{0.8});
-        set.addData(new double[]{0.7,0.4,0.6,0.3},new double[]{0.87});
-        set.addData(new double[]{0.9,0.4,0.6,0.2},new double[]{0.89});
-
-        net.train(set,100000,4);
-        for(int i=0;i<5;i++)
-        {
-            System.out.println(Arrays.toString(net.calculate(set.getInput(i))));
-        }
-
     }
 
 

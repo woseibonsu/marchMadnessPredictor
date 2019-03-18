@@ -11,16 +11,26 @@ public class Team {
                  fieldGoalAttempts, threePointerAttempts ,freeThrowAttempts*/
 
     private String teamName;
+    private int year, teamID;
 
-    private double[] statArray, oStatArray;
-
-    public Team(double[] statArray , double[] oppoentStatArray, String teamName)
+    //CONSTRUCTS A TEAM FOR GIVEN YEAR
+    private double[] statArray;
+    public Team(int year, int teamID, String team, double[] statArray)
     {
+        this.year = year;
+        this.teamName = team;
+        this.teamID = teamID;
         this.statArray = statArray;
-        oStatArray = oppoentStatArray;
-        this.teamName = teamName;
     }
 
+    //CONSTRUCTS A HOLISTIC TEAM
+    public Team(int teamID, String team, double[] statArray)
+    {
+        this.year = year;
+        this.teamName = team;
+        this.teamID = teamID;
+        this.statArray = statArray;
+    }
 
     @Override
     public String toString()
@@ -34,8 +44,8 @@ public class Team {
 
     public double getLosses(){return statArray[4];}
 
-    //<editor-fold desc="GET METHODS FOR WINING STATS">
-    public double[] getWinningStatArray() {
+    //<editor-fold desc="Get methods for statArray">
+    public double[] getStatArray() {
         return statArray;
     }
 
@@ -72,46 +82,6 @@ public class Team {
     public double getPersonalFoulsPerGame(){return statArray[17];}
 
     public double getAssistsPerGame(){return statArray[18];}
-    //</editor-fold>
-
-    //<editor-fold desc="GET METHODS FOR LOOSING STATS">
-    public double[] getOppStatArray() {
-        return oStatArray;
-    }
-
-    public double getOppAverageScore(){return oStatArray[0];}
-
-    public double getOppFieldGoalsMadePerGame(){return oStatArray[1];}
-
-    public double getOppFieldGoalsAttempted(){return oStatArray[14];} //
-
-    public double getOppFieldGoalScuessRate(){return oStatArray[2];}
-
-    public double getOppThreePointersMadePerGame(){return oStatArray[3];}
-
-    public double getOppThreePointersAttempted(){return oStatArray[15];} //
-
-    public double getOppThreePointerScuessRate(){return oStatArray[4];}
-
-    public double getOppFreeThrowsMadePerGame(){return oStatArray[5];}
-
-    public double getOppFreeThrowsAttempted(){return oStatArray[16];} //
-
-    public double getOppFreeThrowScuessRate(){return oStatArray[6];}
-
-    public double getOppOffensiveReboundsPerGame(){return oStatArray[7];}
-
-    public double getOppDefensiveReboundsPerGame(){return oStatArray[8];}
-
-    public double getOppTurnOversPerGame(){return oStatArray[9];}
-
-    public double getOppStealsPerGame(){return oStatArray[10];}
-
-    public double getOppBlocksPerGame(){return oStatArray[11];}
-
-    public double getOppPersonalFoulsPerGame(){return oStatArray[12];}
-
-    public double getOppAssistsPerGame(){return oStatArray[13];}
     //</editor-fold>
 
 }

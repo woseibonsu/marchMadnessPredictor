@@ -1,83 +1,151 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
+import java.io.IOException;
+import java.util.*;
 
 public class Game {
 
-    public Game()
-    {
-        /*year,  teamID, GAMESPLAYED , AVERAGESCORE , WINS , LOSSES,
-                FIELDGOALSPERGAME , FIELDGOALSUCCESS,
-                THREEPOINTERSPERGAME , THREEPOINTERSSUCCESS,
-                FREETHROWPERGAME , FREETHROWSUCCESS,
-                OFFENSIVEREBOUNDSPERGAME , DEFENSIVEREBOUNDSPERGAME , TURNOVERSPERGAME,
-                STEALSPERGAME, BLOCKSPERGAME, PERSONALFOULSPERGAME, AssistsPerGame,
-                fieldGoalAttempts, threePointerAttempts ,freeThrowAttempts*/
+    public Game() {
+
     }
 
-    public static Team playGame(Team team1, double[] winningWeightsTeam1, double[] loosingWeightsTeam1,
-                                Team team2, double[] winningWeightsTeam2, double[] loosingWeightsTeam2)
+    public static Team playGame(Team team1, Team team2) throws IOException
     {
-        double team1Score = getScore(team1, winningWeightsTeam1, loosingWeightsTeam1);
+        Network net = new Network(28, 40, 15, 6, 1);
+        TrainSet set = new TrainSet(28, 1);
 
-        double team2Score = getScore(team2, winningWeightsTeam2, loosingWeightsTeam2);;
+        double[] statList = Analyzer.mergeStats(team1, team2);
+        double[] statListReversed = Analyzer.reverseArray(Analyzer.mergeStats(team1, team2));
+        set.addData(statList, new double[]{1});
+        set.addData(statListReversed, new double[]{0});
 
+        net.train(set, 100000);
 
-        if(team1Score > team2Score)
-        {
-            return  team1;
-        }
-        else if (team1Score < team1Score)
-        {
+        double[] test = net.calculate(Analyzer.mergeStats(team1, team2));
+        System.out.println(test[0]);
+        if (test[0] > 0.5) {
+            return team1;
+        } else {
             return team2;
         }
-        else
+    }
+
+    public static Tournament playTournament(ArrayList<Team> teams) throws IOException
+    {
+        ListIterator<Team> teamIterator = teams.listIterator();
+        ArrayList<Team> seedOne = new ArrayList<>(16);
+        ArrayList<Team> seedTwo = new ArrayList<>(8);
+        ArrayList<Team> seedThree = new ArrayList<>(4);
+        ArrayList<Team> seedFour = new ArrayList<>(2);
+        Team runnerUp;
+        Team champion;
+        Team teamOne;
+        Team teamTwo;
+
+        //<editor-fold desc="Play Round One">
+        for(int i = 0; i < 32; i++)
         {
-            int r = new Random().nextInt(101);
-            if(r > 50)
+            System.out.println("NUMBER: " + i);
+            teamOne = teamIterator.next();
+            teamTwo = teamIterator.next();
+            System.out.println(teamOne + " VS " + teamTwo );
+            if(playGame(teamOne, teamTwo).equals(teamOne))
             {
-                return team1;
+                System.out.println(playGame(teamOne, teamTwo));
+                teamIterator.previous();
+                seedOne.add(teamIterator.previous());
+                teamIterator.remove();
+                teamIterator.next();
+                System.out.println("MOVEMENT ONE");
             }
             else
             {
-                return team2;
+                seedOne.add(teamIterator.previous());
+                teamIterator.remove();
+                System.out.println("MOVEMENT TWO");
             }
         }
-
-    }
-
-    static private double getScore(Team team, double[] winningWeights, double[] loosingWeights)
-    {
-        double teamScore = 0;
-
-        double[] wStat = team.getWinningStatArray();
-        double[] lStat = team.getOppStatArray();
-
-        for(int i = 0; i < wStat.length; i++)
+        //</editor-fold>
+        teamIterator = teams.listIterator();
+        //<editor-fold desc="Play Round Two">
+        for(int i = 0; i < 16; i++)
         {
-            teamScore += wStat[i] * winningWeights[i];
-            try //THIS IS HERE BECAUSE THE LOOSING STATS HAVE LESS INDICES THAN THE WINING, WHICH WOULD CAUSE AN ERROR
+            System.out.println("NUMBER: " + i);
+            teamOne = teamIterator.next();
+            teamTwo = teamIterator.next();
+            if(playGame(teamOne, teamTwo).equals(teamOne))
             {
-                teamScore += lStat[i] * loosingWeights[i];
-            } catch (Exception e) {}
+                teamIterator.previous();
+                seedTwo.add(teamIterator.previous());
+                teamIterator.remove();
+                teamIterator.next();
+            }
+            else
+            {
+                seedTwo.add(teamIterator.previous());
+                teamIterator.remove();
+            }
         }
-
-        return teamScore;
-    }
-
-    public static Team playtTournament(LinkedList<Team> bracket)
-    {
-        Iterator iterator = bracket.listIterator();
-
-        for (int i = 0; i < 0; i++)
+        //</editor-fold>
+        teamIterator = teams.listIterator();
+        //<editor-fold desc="Play Round Three">
+        for(int i = 0; i < 8; i++)
         {
-            playGame(iterator.next(iterator.next(), new double[], new double[], //NEW DOUBLE PLACE HOLDER
-                                    iterator.next(), new double[], new double[])); //NEW DOUBLE PLACE HOLDER
-            //iterator.remove or iterator.previous, iterator.remove()
+            teamOne = teamIterator.next();
+            teamTwo = teamIterator.next();
+            if(playGame(teamOne, teamTwo).equals(teamOne))
+            {
+                teamIterator.previous();
+                seedThree.add(teamIterator.previous());
+                teamIterator.remove();
+                teamIterator.next();
+            }
+            else
+            {
+                seedThree.add(teamIterator.previous());
+                teamIterator.remove();
+            }
         }
+        //</editor-fold>
+        teamIterator = teams.listIterator();
+        //<editor-fold desc="Play Round Four">
+        for(int i = 0; i < 4; i++)
+        {
+            teamOne = teamIterator.next();
+            teamTwo = teamIterator.next();
+            if(playGame(teamOne, teamTwo).equals(teamOne))
+            {
+                teamIterator.previous();
+                seedFour.add(teamIterator.previous());
+                teamIterator.remove();
+                teamIterator.next();
+            }
+            else
+            {
+                seedFour.add(teamIterator.previous());
+                teamIterator.remove();
+            }
+        }
+        //</editor-fold>
+        teamIterator = teams.listIterator();
+        //<editor-fold desc="Play Champion's Match">
+        teamOne = teamIterator.next();
+        teamTwo = teamIterator.next();
+        champion = playGame(teamOne, teamTwo);
+        if(champion.equals(teamOne))
+        {
+            runnerUp = teamTwo;
+        }
+        else
+        {
+            runnerUp = teamOne;
+        }
+        //</editor-fold>
 
+        return new Tournament(seedOne, seedTwo, seedThree,
+                seedFour, runnerUp, champion);
     }
+
+
+
 }
